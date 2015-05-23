@@ -41,7 +41,3 @@ module.exports = {
 		});
 	}
 }
-
-//ToDo Set up scraping from /r/javascript
-//ToDo Handle Failures in titles
-//ToDO Build twitter bot (@MelvilleBot)

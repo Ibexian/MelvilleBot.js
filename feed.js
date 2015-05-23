@@ -22,17 +22,22 @@ feedparser.on('error', function(error) {
   // always handle errors
 });
 feedparser.on('readable', function() {
-  // This is where the action is!
   var stream = this,
-      meta = this.meta, // **NOTE** the "meta" is always available in the context of the feedparser instance
+      meta = this.meta,
       item;
+
   while (item = stream.read()) {
     responses.push(item.title);
   }
 
 
 });
+//Once we've looked at all the recent titles pick a random one and tweetify it
 feedparser.on('end', function(){
     var num = Math.floor(Math.random() * (responses.length));
     moby.tweetify(responses[num].toString());  
 })
+
+
+//ToDo Handle Failures in titles
+//For both a feedparse error and for the tweetify returning undefined
