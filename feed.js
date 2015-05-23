@@ -1,8 +1,10 @@
 var FeedParser = require('feedparser'),
-    request = require('request');
+    request = require('request'),
+    moby = require('./moby');
 
 var req = request('http://www.reddit.com/r/javascript/top.xml'),
-    feedparser = new FeedParser();
+    feedparser = new FeedParser(),
+    responses = [];
 
 req.on('error', function (error) {
   // handle any request errors
@@ -24,8 +26,13 @@ feedparser.on('readable', function() {
   var stream = this,
       meta = this.meta, // **NOTE** the "meta" is always available in the context of the feedparser instance
       item;
-
   while (item = stream.read()) {
-    console.log(item.title);
+    responses.push(item.title);
   }
+
+
 });
+feedparser.on('end', function(){
+    var num = Math.floor(Math.random() * (responses.length));
+    moby.tweetify(responses[num].toString());  
+})
