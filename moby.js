@@ -43,7 +43,7 @@ module.exports = {
 				    	var num = Math.floor(Math.random() * (results.length));
 				    	console.log(results[num]);
 				    	if (results[num] == "undefined") {
-				    		console.log('results', results)
+				    		fs.appendFile('log.txt', "Failed: " + line + " " + new Date(), function (err) {});
 				    	} else {
 				    		twitter.twitterPost(results[num]);
 				    	}
