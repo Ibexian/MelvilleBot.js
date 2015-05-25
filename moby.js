@@ -32,14 +32,21 @@ module.exports = {
 				        		tempItem = tempItem + " " + items[j];
 				        	}
 				        	//Add the result and the remainder of the title to the result array
-				        	results.push(stringPretty((back + " " + tempItem).split(/\r?\n|\r/).join(' ')));
+				        	var resultText = stringPretty((back + " " + tempItem).split(/\r?\n|\r/).join(' '));
+				        	if (resultText.length <= 140) {
+				        		results.push(resultText);
+				        	}
 				    	}
 				    }
-				    if(i === items.length -1) {
+				    if (i === items.length -1) {
 				    	//return random result from array
 				    	var num = Math.floor(Math.random() * (results.length));
 				    	console.log(results[num]);
-				    	twitter.twitterPost(results[num]);
+				    	if (results[num] == "undefined") {
+				    		console.log('results', results)
+				    	} else {
+				    		twitter.twitterPost(results[num]);
+				    	}
 				    }
 		    	};
 
