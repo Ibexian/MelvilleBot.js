@@ -1,5 +1,6 @@
 var util = require('util');
 var fs = require('fs');
+var twitter = require('./twitterBot');
 
 var markov = require('markov');
 var m = markov(2);
@@ -19,25 +20,29 @@ module.exports = {
 		    	var items = line.toString().split(' ');
 		    	var results = [];
 
-		    	items.forEach(function(item, index, array) {
-			    	var search = m.search(item);
+		    	for(i=0; i<items.length; i++){
+			    	var search = m.search(items[i]);
 
 			    	if (search) {
 			    		//move backward from each word in the title predicting the word before it
 				        var back = m.backward(search).join(' ');
 				        if (back.length !== 0 ) {
-				        	var tempItem = item;
-				        	for (i=index + 1; i<array.length; i++){
-				        		tempItem = tempItem + " " + array[i];
+				        	var tempItem = items[i];
+				        	for (j=i + 1; j<items.length; j++){
+				        		tempItem = tempItem + " " + items[j];
 				        	}
 				        	//Add the result and the remainder of the title to the result array
 				        	results.push(stringPretty((back + " " + tempItem).split(/\r?\n|\r/).join(' ')));
 				    	}
 				    }
-		    	});
-		    	//return random result from array
-		    	var num = Math.floor(Math.random() * (results.length));
-		    	console.log(results[num]);
+				    if(i === items.length -1) {
+				    	//return random result from array
+				    	var num = Math.floor(Math.random() * (results.length));
+				    	console.log(results[num]);
+				    	twitter.twitterPost(results[num]);
+				    }
+		    	};
+
 		});
 	}
 }

@@ -35,9 +35,8 @@ feedparser.on('readable', function() {
 //Once we've looked at all the recent titles pick a random one and tweetify it
 feedparser.on('end', function(){
     var num = Math.floor(Math.random() * (responses.length));
-    moby.tweetify(responses[num].toString());  
+    moby.tweetify(responses[num].toString())
 })
-
 
 //ToDo Handle Failures in titles
 //For both a feedparse error and for the tweetify returning undefined
