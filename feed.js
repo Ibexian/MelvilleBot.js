@@ -43,4 +43,4 @@ var scrape = function() {
 }
 
 //Set up the cron to repeat this daily
-schedule.scheduleJob('0 3,15 * * *', scrape());
+schedule.scheduleJob('0 6 * * *', function(){scrape()});
